@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full m-0;
+  }
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+.animate-border-path {
+  position: relative;
+}
+.animate-border-path::before,
+.animate-border-path::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  border: 4px solid transparent;
+  width: 0;
+  height: 0;
+  @apply rounded-md;
+}
+.animate-border-path::before {
+  top: -0;
+  left: 0;
+  border-top-color: #10b981;
+  border-right-color: #10b981;
+  animation: border 2s infinite;
+}
+.animate-border-path::after {
+  bottom: 0;
+  right: 0;
+  animation: border 2s 1s infinite, borderColor 2s 1s infinite;
+}
+
+@keyframes border {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  25% {
+    width: 100%;
+    height: 0;
+  }
+  50% {
+    width: 100%;
+    height: 100%;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+  }
+}
+@keyframes borderColor {
+  0% {
+    border-bottom-color: #10b981;
+    border-left-color: #10b981;
+  }
+  50% {
+    border-bottom-color: #10b981;
+    border-left-color: #10b981;
+  }
+  51% {
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  100% {
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+}
+
+.react-flow__edge .react-flow__edge-interaction {
+  stroke-width: 30px !important;
+}
+
+.react-flow__edge:focus .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path {
+  transition: all 200ms;
+  @apply !stroke-red-300;
+}
+
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke-width: 6px;
+}
+
+.react-flow__edge .react-flow__edge-path,
+.react-flow__connectionline path {
+  stroke-width: 4px;
+  @apply stroke-stone-300;
+}
+
+.react-flow__connectionline path {
+  @apply stroke-green-500;
+}
+
+.react-flow__handle {
+  @apply !bg-stone-300 !border-stone-100 border-solid !border-[5px] !w-5 !h-5 !cursor-pointer;
+}
+
+.react-flow__handle-left {
+  top: 12px !important;
+  left: -12px !important;
+}
+
+.react-flow__handle-right {
+  top: 12px !important;
+  right: -12px !important;
+}
+
+.react-flow__handle:hover,
+.react-flow__handle.connectingfrom,
+.react-flow__handle.connectingto {
+  background-color: #233c3e !important;
+}
+
+.react-flow__edge:hover *[data-close-button] {
+  visibility: visible;
+}
+
+.react-flow__edge:active .react-flow__edge-path,
+.react-flow__edge.selected .react-flow__edge-path {
+  @apply !stroke-red-400;
+}

@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "type": "file-input",
+      "position": {
+        "x": 27.435373838048463,
+        "y": -70.6903082112656
+      },
+      "data": {
+        "file": {
+          "name": "Vinicius Pacheco.pdf",
+          "size": 210525,
+          "type": "application/pdf",
+          "content": "Vinicius Pacheco   @vinpac  I'm a software engineer and entrepreneur, currently the CEO of  Utiliza AI. Born and raised in Rio de Janeiro, Brazil, I've built my  career by combining a passion for innovation with a  commitment to solving meaningful problems using  technology.  I started learning programming on my own as a teenager  because of this video . At 18, I moved to São Paulo, and by 20, I  became a director at Atados. I helped turn it from a  volunteering website into a SaaS platform with over 50 clients. During the pandemic, I quickly  created a donation platform for Atados, raising over 300,000 BRL to support community  projects.  Over the years, I've honed expertise in React, Node.js, and AI technologies, leading projects  such as Perch Insights, where I introduced early LLM solutions to revolutionize data analysis.  These experiences culminated in founding Utiliza AI, a SaaS platform that automates  work \u0000 ows and meeting-driven sales processes, helping businesses optimize their  productivity.  My focus remains on crafting tools that enhance user experiences while fostering scalable,  secure, and innovative technologies.  Experience  CEO   Utiliza AI   | Rio de Janeiro, Brazil  Jul 2024 -- Present  Pioneered a SaaS platform that automates document generation and sales work \u0000 ows,  enhancing client productivity and e \u0000 iciency.  Successfully secured and retained key clients by delivering tailored AI solutions for lead  quali \u0000 cation, meeting preparation, and follow-ups.  Developed real-time meeting transcription and integration features, transforming how  businesses leverage meetings to accelerate sales. Full Stack AI Engineer   Perch Insights   | United States  Jun 2022 -- Jun 2024  On my   \u0000 rst week I introduced a new development strategy that was rapdily adpoted to  speed up the development process.  Introduced LLM models to streamline enterprise data analysis, leveraging an early  adoption stage of ChatGPT's API.  Designed the   \u0000 rst version of the product in Figma and co-founded the design system.  Collaborated with stakeholders to design and implement robust data pipelines and  visualization tools.  Full Stack Engineer   Lick   | Toptal | Remote  Apr 2021 -- May 2022  Developed pixel-perfect interfaces for their market place using React, Next.js and Styled  Components.  Learned the value of a established process with a culture of go slow to go fast.  Full Stack Developer & CTO   Atados   | São Paulo, Brazil  Aug 2016 -- Oct 2020  Rapidly developed a donation feature using Google Sheets during the COVID-19  pandemic, raising over BRL 300,000 for social projects.  Managed a team to scale Atados.com.br, from a single website to a SASS platform with  over 50 clients. Skills  Full Stack Development:   Expertise in React, Node.js, Typescript, Postgres, Vector Stores,  Caching, and more.  AI:   Expertise in deploying LLMs and designing AI-driven work \u0000 ows for sales and  customer engagement.  Design & User Experience:   From building Design System to delivering well designed  interfaces in Figma.  Security & Scalability:   Implemented SOC 2-compliant encryption strategies and scalable  infrastructure using Pulumi and AWS.  Additional Information  Interests:   Sur \u0000 ng, samba music, forró dance (former instructor), and fostering emotional  intelligence through social projects.  Languages:   Fluent in English and Portuguese, adept at communicating across diverse  teams and stakeholders.  Soft Skills:   Strategic planning, team leadership, and a strong focus on continuous  iteration and user feedback. "
+        },
+        "label": "My Resume"
+      }
+    },
+    {
+      "id": "Cvp87H0cJ9JYXwDpBtVgI",
+      "data": {
+        "file": {
+          "name": "gumloop.com_careers.pdf",
+          "size": 582573,
+          "type": "application/pdf",
+          "content": "The   plan : Build   a   10   person   billion   dollar   company Small   teams   move   faster   and   are   more   fun   to   work   in . We ' re   looking   for   people   who   are ... Excited   -   We   really   love   to   build .   We ' re   looking   for   people   who   can   add   to   that excitement   and   contribute   new   ideas . Builders   -   Side   projects ,   open   source   contributions ,   previous   startups   -   we   want to   work   with   people   who   have   at   least   tried   to   build   things   before . Resourceful   -   The   work   involves   solving   hard ,   ambiguous   problems .   We ' re looking   for   people   who   can   be   scrappy   and   creative . We ' re   open   to   changing   our   minds   about   the   10   person   idea .   So   far ,   working   as   a   small team   has   been   wonderful . Read   more   about   who   we   are   in   our   handbook . Our   Process 🎉   Announcing   Gumloop ' s   $ 17 m   Series   A   Read   more   → 1.   Public   Challenge We   were   getting   lots   of   low   effort   applications   ( literally   thousands ).   Instead   of reading   generic   resumes   we ' re   putting   out   an   open   ended   challenge   for   each position .   Submit   something   you ' re   proud   of   and   we ' ll   set   up   a   call   for   next   steps . 2.   Two - Part   Interview You ' ll   spend   an   hour   talking   with   Max   about   background ,   design   choices   in   the challenge   etc   and   an   hour   with   Rahul   going   over   technical   details . 3.   Paid   Work   Trial Spend   several   days   working   alongside   us   on   the   product .   We ' ll   compensate   you for   your   time .   This   is   as   much   of   a   chance   for   you   to   see   if   you ' d   like   working with   us   as   it   is   for   us   to   see   if   you ' re   a   good   fit . 🎉   Announcing   Gumloop ' s   $ 17 m   Series   A   Read   more   → F oun di n g   E n gi n ee r L o ca t i on S a n   F r a n ci s c o   O ffice E mploym e nt   T yp e F ull   t i m e D e p a rtm e nt F oun di n g   T ea m A s   a   f oun di n g   e n gi n ee r ,   you ' ll   be B u i l di n g   ac ross   t he   f ull   st ack   a n d   he lp   s ha p e   pro d u c t   di r ec t i on . L a un chi n g   n e w   fea tur e s ,   sp eaki n g   di r ec tly   w i t h   c ustom e rs   to   ga t he r feedback ,   i t e r a t i n g   qu ick ly . O wn i n g   p a rts   o f   t he   pro d u c t   e n d - to - e n d . Y ou ʼ ll   be   su cce ss f ul   i n   t hi s   rol e   if   you … A r e   a   r e l e ntl e ssly   r e sour cef ul   e n gi n ee r   w i t h   e xp e r ie n ce   b u i l di n g   r ea l - worl d a ppl ica t i ons ,   w i t h   a   high   ba r   f or   qu a l i ty . I f   you ʼ v e   p e rson a lly   b u i lt   som e t hi n g   p e opl e   us e ,   y ea rs   o f   e xp e r ie n ce i s   ba s ica lly   i rr e l e v a nt . C a n   g o   f rom   0   to   1   b u i l di n g   f ull   st ack   a ppl ica t i ons . C a r e   dee ply   ab out   t h os e   w h o   us e   w ha t   you   b u i l d . E n j oy   l ea rn i n g   a n d   wor ki n g   i n   a   v e ry   fa st - p aced   e nv i ronm e nt . B onus   po i nts P r i or   e xp e r ie n ce   a s   a   f oun de r   or   f oun di n g   e n gi n ee r . S tron g   s e ns e   o f   pro d u c t   t a st e . O v e rv ie w A ppl ica t i on A ll   J o b s   🎉   Announcing   Gumloop ' s   $ 17 m   Series   A   Read   more   → H a v e   b u i lt   LLM - pow e r ed   pro d u c ts . E xp e r ie n ce   w i t h   T yp e s c r i pt ,   R eac t ,   T ai lw i n d CSS ,   P yt h on ,   R ed ux . W e   w a nt   to   a vo id   ha v i n g   som e on e   w h o   only   tou che s   on e   p a rt   o f   t he   c o deba s e   ( e x : \" I   only   d o   backe n d \").   S om e   p e opl e   o b v i ously   ha v e   pro ficie n cie s   b ut   i n   ge n e r a l ,   w e a ll   wor k   f ull   st ack   a n d   a r e   w i ll i n g   to   l ea rn   a nyt hi n g   to   m ake   t hi n g s   wor k . C omp e ns a t i on F l e x ib l e   a n d   c omp e t i t i v e . ************************************************* O p e n - e n ded   cha ll e n ge   ( opt i on a l   b ut   e n c our aged ) W e ' v e   f oun d   t ha t   t he   p e op le   w e   w a nt   to   wor k   w i t h   a r e   a s   e x ci t ed   ab out   t he pro d u c t   a s   w e   a r e .   W e   ge t   h un d r ed s   o f   AI   ge n e r a t ed   sp am   a pp lica t i ons   a   w eek   so w e   w a nt ed   to   gi v e   p e op le   w h o   r eall y   ca r e   a   cha n ce   to   st a n d   out   w i t h   a   f u ll   st ack challe n ge . C ha ll e n ge   i nstru c t i ons   he r e . A b out   our   pro ce ss 1.   I ntro d u c tory   cha t . 2.   T ech n ica l   i nt e rv ie w   ( ha ppy   to   s ki p   t hi s   if   you   prov ide   a   g oo d   cha ll e n ge su b m i ss i on ). 3.   P aid   mult i - da y   tr ia l   p e r i o d   w he r e   w e   wor k   to ge t he r   to   de t e rm i n e   if   i t ʼ s   a   fi t . W e ʼ ll   m a t ch   t he   tr ia l   p a y   to   w ha t e v e r   s a l a ry   you ʼ r e   c urr e ntly   m aki n g   or m a r ke t   r a t e   to   c omp e ns a t e   f or   your   t i m e . 🎉   Announcing   Gumloop ' s   $ 17 m   Series   A   Read   more   → "
+        }
+      },
+      "type": "file-input",
+      "position": {
+        "x": 341.0312386325115,
+        "y": -68.15582940292299
+      }
+    },
+    {
+      "id": "b",
+      "type": "llm",
+      "position": {
+        "x": 137.3609282479662,
+        "y": 84.45401983817929
+      },
+      "data": {
+        "prompt": "Please read the PDF containing my résumé (PDF #1) and the PDF containing the job description (PDF #2). Then provide a comprehensive analysis of how my qualifications align with the role. In your analysis, please:1. Identify the key skills and requirements mentioned in the job description.2. Match each of those requirements with my résumé, citing specific examples of my experience or achievements.3. Highlight any notable gaps in my qualifications, if they exist, and suggest ways I could address or mitigate these gaps.4. Offer an overall assessment of my suitability for this position.",
+        "model": "gpt-4o",
+        "label": "Analysis of Match"
+      }
+    },
+    {
+      "id": "KVX8kbJNkZJ8tIvJiq5lW",
+      "data": {
+        "label": "Morgan Freeman",
+        "model": "gpt-4o",
+        "prompt": "Now, using the results of your analysis, craft a sarcastic yet captivating pitch directed at the hiring manager. Write in the style of Morgan Freeman narrating a dramatic documentary, combining warmth, wisdom, and gentle comedic flair. This pitch should emphasize:\n\t1.\tMy key strengths, delivered with both humor and gravitas.\n\t2.\tWhy my unique perspective and skill set make me indispensable.\n\t3.\tAn entertaining but persuasive tone that leaves the audience with no doubt about my fit for the role."
+      },
+      "type": "llm",
+      "position": {
+        "x": 132.55464387183227,
+        "y": 711.9840476119515
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "b",
+      "target": "KVX8kbJNkZJ8tIvJiq5lW",
+      "id": "xy-edge__b-KVX8kbJNkZJ8tIvJiq5lW"
+    },
+    {
+      "source": "a",
+      "target": "b",
+      "id": "xy-edge__a-b"
+    },
+    {
+      "source": "Cvp87H0cJ9JYXwDpBtVgI",
+      "target": "b",
+      "id": "xy-edge__Cvp87H0cJ9JYXwDpBtVgI-b"
+    }
+  ]
+}
