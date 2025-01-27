@@ -2,9 +2,10 @@ import type { NodeTypes } from "@xyflow/react";
 
 import { AppNode } from "./types";
 import { z } from "zod";
-import { RootNode } from "@/components/root-node";
+import { TaskNode } from "@/components/task-node";
 import { zField } from "@/components/zod-form/helpers";
 import defaultFlow from "@/default-flow.json";
+import { TextNode } from "@/components/text-node";
 
 export const defaultInitialNodes = defaultFlow.nodes as AppNode[];
 
@@ -13,6 +14,7 @@ type NodeDefinition = {
   name: string;
   description: string;
   input: z.ZodObject<z.ZodRawShape, z.UnknownKeysParam, z.ZodTypeAny, object>;
+  executable?: boolean;
 };
 
 export type NodeDefinitionId = NodeDefinition["id"];
@@ -22,6 +24,13 @@ const model = zField(z.enum(["gpt-4o", "gpt-4o-mini"]), {
   placeholder: "Select a model to run",
 });
 export const NODE_DEFINITIONS: NodeDefinition[] = [
+  {
+    id: "text",
+    name: "Text",
+    description: "A simple text node for adding notes or documentation",
+    input: z.object({}),
+    executable: false,
+  },
   {
     id: "file-input",
     name: "File Input",
@@ -75,11 +84,18 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
   },
 ];
 
-export const nodeTypes = Object.fromEntries(
-  NODE_DEFINITIONS.map((nodeDefinition) => [
-    nodeDefinition.id as AppNode["id"],
-    RootNode,
-  ])
+export const nodeTypes = {
+  ...Object.fromEntries(
+    NODE_DEFINITIONS.map((nodeDefinition) => [
+      nodeDefinition.id as AppNode["id"],
+      TaskNode,
+    ])
+  ),
 
-  // forcing the type here to route all nodes to RootNode since I only have task nodes with the same format (header + form)
-) as unknown as NodeTypes;
+  // override
+  text: TextNode,
+} as unknown as NodeTypes;
+
+export const nodeDefinitionById = Object.fromEntries(
+  NODE_DEFINITIONS.map((nodeDefinition) => [nodeDefinition.id, nodeDefinition])
+);

@@ -30,8 +30,9 @@ export const ShareButton = () => {
     <Button
       onClick={handleShare}
       className={cn(
-        "px-2",
-        isCopied ? "!text-green-600 !border-green-600" : "text-gray-600"
+        isCopied
+          ? "!text-green-600 !bg-green-100 !border-green-600"
+          : "text-gray-600"
       )}
       variant="outline"
     >

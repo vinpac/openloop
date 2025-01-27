@@ -3,6 +3,8 @@ import { FileDropdown } from "@/components/file-dropdown";
 import { Logo } from "@/components/Logo";
 import { RunButton } from "@/components/RunButton";
 import { ShareButton } from "@/components/share-button";
+import { Button } from "@/components/ui/button";
+import { FaGithub } from "react-icons/fa6";
 
 export const Header = ({ onRun }: { onRun: () => void }) => {
   return (
@@ -10,6 +12,15 @@ export const Header = ({ onRun }: { onRun: () => void }) => {
       <Logo className="text-3xl" />
       <ApiKeyInput />
       <div className="ml-auto flex items-center gap-2">
+        <Button asChild variant="outline">
+          <a
+            href="https://github.com/vinpac/openloop"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaGithub />
+          </a>
+        </Button>
         <FileDropdown />
         <ShareButton />
         <RunButton onRun={onRun} />

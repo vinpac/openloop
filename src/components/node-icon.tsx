@@ -1,8 +1,10 @@
 import { AppNode } from "@/nodes/types";
 import type { IconBaseProps } from "react-icons";
 import { TbBrandOpenai, TbFileText, TbTable } from "react-icons/tb";
+import { IoText } from "react-icons/io5";
 
 const nodeIconMap: Record<string, React.ComponentType<IconBaseProps>> = {
+  text: IoText,
   llm: TbBrandOpenai,
   "file-input": TbFileText,
   extract: TbTable,

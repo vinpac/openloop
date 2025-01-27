@@ -1,9 +1,15 @@
 import { AppNode } from "@/nodes/types";
 import { NodeState, WorkflowInput } from "@/workflow/types";
 import { WORKFLOW_EXECUTORS } from "@/workflow/executors";
+import { nodeDefinitionById } from "@/nodes";
 
 export async function runWorkflow(workflowInput: WorkflowInput) {
-  const { onNodeStateChange, nodes, edges } = workflowInput;
+  const { onNodeStateChange, nodes: allNodes, edges } = workflowInput;
+  const nodes = allNodes.filter(
+    (n) =>
+      nodeDefinitionById[n.type as keyof typeof nodeDefinitionById]
+        ?.executable !== false
+  );
   // Initialize call stack state
   const callStack = new Map<string, NodeState>();
 

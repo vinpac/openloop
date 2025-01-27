@@ -27,4 +27,14 @@ export const RichText = ({
   );
 };
 
-const COMPONENTS: Components = {};
+const COMPONENTS: Components = {
+  li: ({ children }) => {
+    return <li className="my-0 py-0">{children}</li>;
+  },
+  ol: ({ children }) => {
+    return <ol className="my-0 py-0">{children}</ol>;
+  },
+  ul: ({ children }) => {
+    return <ul className="my-0 py-0">{children}</ul>;
+  },
+};

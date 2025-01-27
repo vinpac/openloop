@@ -62,7 +62,7 @@ export function RunReportPanel({
         isOpen ? "translate-x-0" : "translate-x-full"
       } z-40`}
     >
-      <div className="flex justify-between h-12 absolute top-0 left-0 right-0 items-center py-1 pl-3 pr-1 border-b">
+      <div className="flex justify-between h-12 bg-white absolute top-0 left-0 right-0 items-center py-1 pl-3 pr-1 border-b">
         <h2 className="text-sm uppercase font-bold">Run Report</h2>
         <Button variant="ghost" onClick={onClose}>
           ✕

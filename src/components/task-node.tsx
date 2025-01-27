@@ -24,7 +24,7 @@ const cxByNodeType = {
   llm: "border-orange-600 [&_[data-header]]:bg-orange-100",
 };
 
-export const RootNode = (node: AppNode) => {
+export const TaskNode = (node: AppNode) => {
   const { updateNode, setNodes, setEdges } = useReactFlow();
   const NodeForm = NodeFormTypes[node.type as keyof typeof NodeFormTypes];
   const [label, setLabel] = useState(

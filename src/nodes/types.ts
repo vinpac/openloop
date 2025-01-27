@@ -40,7 +40,20 @@ export type ExtractNode = Node<
   "extract"
 >;
 
-export type AppNode = BuiltInNode | FileInputNode | LLMNode | ExtractNode;
+export type TextNode = Node<
+  {
+    content?: string;
+    label?: string;
+  },
+  "text"
+>;
+
+export type AppNode =
+  | BuiltInNode
+  | FileInputNode
+  | LLMNode
+  | ExtractNode
+  | TextNode;
 
 export type NodeExecutionState = {
   isRunning: boolean;

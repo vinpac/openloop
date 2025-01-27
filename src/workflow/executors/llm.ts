@@ -18,7 +18,7 @@ const llm: WorkflowExecutor<LLMNode> = async (
   const inputMessages: ChatCompletionMessageParam[] =
     inputs?.map((input) => ({
       role: "user",
-      content: input as string,
+      content: typeof input === "string" ? input : JSON.stringify(input),
     })) || [];
   const messages: ChatCompletionMessageParam[] = [
     { role: "system", content: node.data.prompt },

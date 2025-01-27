@@ -40,7 +40,7 @@ export function RunButton({ onRun }: RunButtonProps) {
   return (
     <Button
       onClick={runFlow}
-      className="bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-md transition-colors z-50 flex items-center gap-2"
+      className="bg-primary-600 px-4 hover:bg-primary-700 text-white font-semibold rounded-md transition-colors z-50 flex items-center gap-2"
     >
       <TbPlayerPlayFilled />
       Run Flow
