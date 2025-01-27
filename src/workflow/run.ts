@@ -25,8 +25,6 @@ export async function runWorkflow(workflowInput: WorkflowInput) {
 
     console.info(`[node:${nodeId}] started`);
     try {
-      let output = "";
-
       // Get inputs from received calls if any
       const nodeState = callStack.get(nodeId);
       const inputs = nodeState?.receivedCalls.map((c) => c.output);
@@ -41,7 +39,7 @@ export async function runWorkflow(workflowInput: WorkflowInput) {
         console.info(`[node:${nodeId}]`, ...args);
 
       log("starting", { inputs });
-      output = await executor(node, inputs || [], workflowInput, {
+      const output = await executor(node, inputs || [], workflowInput, {
         log,
       });
 

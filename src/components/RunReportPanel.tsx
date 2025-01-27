@@ -1,3 +1,4 @@
+import { DownloadAsCsvButton } from "@/components/download-as-csv-button";
 import { NodeIcon } from "@/components/node-icon";
 import { RichText } from "@/components/rich-text";
 import { Button } from "@/components/ui/button";
@@ -61,13 +62,13 @@ export function RunReportPanel({
         isOpen ? "translate-x-0" : "translate-x-full"
       } z-40`}
     >
-      <div className="flex justify-between items-center py-1 pl-3 pr-1 border-b">
+      <div className="flex justify-between h-12 absolute top-0 left-0 right-0 items-center py-1 pl-3 pr-1 border-b">
         <h2 className="text-sm uppercase font-bold">Run Report</h2>
         <Button variant="ghost" onClick={onClose}>
           ✕
         </Button>
       </div>
-      <div className="p-4 overflow-auto h-[calc(90vh-4rem)]">
+      <div className="p-4 overflow-auto h-full pt-16">
         {sortedNodes.map((node) => {
           const state = nodeStates[node.id];
           if (!state) return null;
@@ -105,7 +106,7 @@ export function RunReportPanel({
                     {state.error}
                   </div>
                 )}
-                {state.output && <Output output={state.output} />}
+                {state.output ? <Output output={state.output} /> : null}
               </CollapsibleContent>
             </Collapsible>
           );
@@ -135,7 +136,7 @@ const Output = ({ output }: { output: unknown }) => {
     const keys = Object.keys(output[0]);
 
     return (
-      <div className="prose prose-sm overflow-x-scroll">
+      <div className="prose prose-sm overflow-x-scroll from-stone-100 to-green-50 bg-gradient-to-tl -mx-2 rounded-lg p-2">
         <table>
           <thead>
             <tr>
@@ -156,6 +157,9 @@ const Output = ({ output }: { output: unknown }) => {
             ))}
           </tbody>
         </table>
+        <div className="flex justify-end mb-2">
+          <DownloadAsCsvButton data={output} />
+        </div>
       </div>
     );
   }
@@ -163,7 +167,7 @@ const Output = ({ output }: { output: unknown }) => {
   if (typeof output === "object" && output) {
     const keys = Object.keys(output);
     return (
-      <div className="prose prose-sm overflow-x-scroll">
+      <div className="prose prose-sm overflow-x-scroll from-stone-100 to-green-50 bg-gradient-to-tl -mx-2 rounded-lg p-2">
         <table>
           <thead>
             <tr>
@@ -180,9 +184,12 @@ const Output = ({ output }: { output: unknown }) => {
             ))}
           </tbody>
         </table>
+        <div className="flex justify-end mb-2">
+          <DownloadAsCsvButton data={output} />
+        </div>
       </div>
     );
   }
 
-  return <pre>{JSON.stringify(output, null, 2)}</pre>;
+  return <pre className="bg-stone-100">{JSON.stringify(output, null, 2)}</pre>;
 };

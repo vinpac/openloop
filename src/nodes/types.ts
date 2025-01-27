@@ -44,7 +44,7 @@ export type AppNode = BuiltInNode | FileInputNode | LLMNode | ExtractNode;
 
 export type NodeExecutionState = {
   isRunning: boolean;
-  output?: string;
+  output?: unknown;
   error?: string;
   startedAt?: number;
   finishedAt?: number;

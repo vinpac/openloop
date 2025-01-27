@@ -4,7 +4,7 @@ import { Node, Edge } from "@xyflow/react";
 export type NodeCall = {
   nodeId: string;
   sourceId: string;
-  output: string;
+  output: unknown;
 };
 
 export type NodeState = {
@@ -27,7 +27,7 @@ export type WorkflowInput = {
 
 export type WorkflowExecutor<T extends AppNode = AppNode> = (
   node: T,
-  inputs: string[],
+  inputs: unknown[],
   workflowInput: WorkflowInput,
   { log }: { log: (...args: unknown[]) => void }
-) => Promise<string>;
+) => Promise<unknown>;

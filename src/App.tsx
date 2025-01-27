@@ -37,7 +37,7 @@ function Canvas({
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [isPanelOpen, setIsPanelOpen] = useState(true);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   const contextMenuElementRef = useRef<HTMLDivElement>(null);
 
   const onConnect: OnConnect = useCallback(

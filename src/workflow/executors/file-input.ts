@@ -6,7 +6,7 @@ const fileInput: WorkflowExecutor<FileInputNode> = async (node) => {
     throw new Error("File is required");
   }
 
-  return JSON.stringify(node.data.file) || "";
+  return node.data.file;
 };
 
 export default fileInput;

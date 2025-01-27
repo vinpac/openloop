@@ -42,7 +42,7 @@ ${node.data.prompt ?? ""}`;
     model: node.data.model ?? "gpt-4o-mini",
     messages: [
       { role: "system", content: systemPrompt },
-      { role: "user", content: inputs.join("\n\n") },
+      { role: "user", content: JSON.stringify(inputs) },
     ],
     onToken: (token) => {
       generated += token;

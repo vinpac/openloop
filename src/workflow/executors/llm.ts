@@ -1,6 +1,6 @@
 import { streamOpenAIResponse } from "@/lib/openai";
 import { LLMNode } from "@/nodes/types";
-import { WorkflowExecutor, WorkflowInput } from "@/workflow/types";
+import { WorkflowExecutor } from "@/workflow/types";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 const llm: WorkflowExecutor<LLMNode> = async (
