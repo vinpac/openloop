@@ -97,7 +97,7 @@
 }
 
 .react-flow__connectionline path {
-  @apply stroke-green-500;
+  @apply stroke-stone-950;
 }
 
 .react-flow__handle {

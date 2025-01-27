@@ -18,6 +18,12 @@ const NodeFormTypes = {
   "file-input": FileInputNodeForm,
 };
 
+const cxByNodeType = {
+  extract: "border-green-600 [&_[data-header]]:bg-green-100",
+  "file-input": "border-pink-600 [&_[data-header]]:bg-pink-100",
+  llm: "border-orange-600 [&_[data-header]]:bg-orange-100",
+};
+
 export const RootNode = (node: AppNode) => {
   const { updateNode, setNodes, setEdges } = useReactFlow();
   const NodeForm = NodeFormTypes[node.type as keyof typeof NodeFormTypes];
@@ -41,7 +47,7 @@ export const RootNode = (node: AppNode) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger
-        className={`bg-white relative data-[state=open]:ring-2 data-[state=open]:ring-stone-950 data-[state=open]:border-stone-950 w-[280px] cursor-default block rounded-md border-2 border-stone-300 transition-opacity duration-75 group-[&.dragging_*]/node:!cursor-grabbing ${
+        className={`bg-white relative data-[state=open]:ring-2 data-[state=open]:ring-stone-950 data-[state=open]:border-stone-950 w-[280px] cursor-default block rounded-md border-2 transition-opacity duration-75 group-[&.dragging_*]/node:!cursor-grabbing ${
           isRunning
             ? "animate-border-path !border-0 !p-0.5 ring-inset ring-4 ring-green-200"
             : executionState?.error
@@ -49,17 +55,24 @@ export const RootNode = (node: AppNode) => {
             : executionState?.finishedAt
             ? "!border-0 p-0.5 ring-inset ring-4 duration-200 transition-all ring-green-500"
             : ""
+        } ${
+          cxByNodeType[node.type as keyof typeof cxByNodeType] ||
+          "border-stone-300"
         }`}
       >
         {node.type !== "file-input" && (
           <Handle position={Position.Top} type="target" />
         )}
         <Handle position={Position.Bottom} type="source" />
-        <header className="flex items-center cursor-grab gap-1 text-sm font-medium px-2 py-1.5">
+        <header
+          data-header
+          className="flex items-center rounded-t mb-2 cursor-grab gap-1 text-sm font-medium px-2 py-1.5"
+        >
           <NodeIcon node={node} className="w-5 h-5 flex-shrink-0" />
           <input
             value={label}
-            className="w-full bg-transparent focus:bg-stone-100 focus:outline-none rounded focus:ring-2 px-1.5 focus:ring-stone-100"
+            className="w-full bg-transparent focus:bg-black/10 focus:outline-none rounded focus:ring-2 px-1.5 focus:ring-black/10"
+            placeholder="Untitled"
             onChange={(e) => {
               setLabel(e.target.value);
               syncLabel(e.target.value);
