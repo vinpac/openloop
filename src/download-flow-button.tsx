@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Download, Upload } from "lucide-react";
 import { useReactFlow } from "@xyflow/react";
 import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 export const DownloadFlowButton = () => {
   const { getNodes, getEdges, setNodes, setEdges } = useReactFlow();
@@ -47,7 +48,7 @@ export const DownloadFlowButton = () => {
           }
         } catch (error) {
           console.error("Error importing flow:", error);
-          alert("Invalid flow file format");
+          toast.error("Invalid flow file format");
         }
       };
       reader.readAsText(file);

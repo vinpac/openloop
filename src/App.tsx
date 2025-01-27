@@ -10,7 +10,7 @@ import {
   useReactFlow,
   ReactFlowProvider,
 } from "@xyflow/react";
-
+import { Toaster } from "react-hot-toast";
 import "@xyflow/react/dist/style.css";
 
 import { defaultInitialNodes, NodeDefinitionId, nodeTypes } from "./nodes";
@@ -26,6 +26,7 @@ import { NewNodeContextMenuContent } from "./components/new-node-context-menu-co
 import { nanoid } from "nanoid";
 import { AppNode } from "@/nodes/types";
 import { Header } from "@/header";
+import { deserializeWorkflow } from "@/lib/share";
 
 function Canvas({
   initialNodes,
@@ -129,6 +130,22 @@ export default function App() {
   const [initialEdges, setInitialEdges] = useState<Edge[] | null>(null);
 
   useEffect(() => {
+    // Try to load workflow from URL parameters first
+    const params = new URLSearchParams(window.location.search);
+    const flowData = params.get("flow");
+
+    if (flowData) {
+      try {
+        const { nodes, edges } = deserializeWorkflow(flowData);
+        setInitialNodes(nodes);
+        setInitialEdges(edges);
+        return;
+      } catch (e) {
+        console.error("Failed to load workflow from URL:", e);
+      }
+    }
+
+    // Fall back to localStorage if no URL parameters
     const nodes = localStorage.getItem("nodes");
     const edges = localStorage.getItem("edges");
     if (nodes && !initialNodes) {
@@ -148,6 +165,7 @@ export default function App() {
       {initialNodes && initialEdges && (
         <Canvas initialNodes={initialNodes} initialEdges={initialEdges} />
       )}
+      <Toaster />
     </ReactFlowProvider>
   );
 }

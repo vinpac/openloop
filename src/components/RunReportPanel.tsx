@@ -57,7 +57,7 @@ export function RunReportPanel({
 
   return (
     <div
-      className={`fixed top-14 bottom-0 right-0 w-96 bg-white border-l border-stone-200 transform transition-transform duration-300 ease-in-out ${
+      className={`fixed top-12 bottom-0 right-0 w-96 bg-white border-l border-stone-200 transform transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       } z-40`}
     >
@@ -105,14 +105,7 @@ export function RunReportPanel({
                     {state.error}
                   </div>
                 )}
-                {state.output && (
-                  <RichText
-                    className="rounded-md text-sm whitespace-pre-wrap"
-                    proseClassName="prose prose-sm"
-                  >
-                    {state.output}
-                  </RichText>
-                )}
+                {state.output && <Output output={state.output} />}
               </CollapsibleContent>
             </Collapsible>
           );
@@ -121,3 +114,75 @@ export function RunReportPanel({
     </div>
   );
 }
+
+const Output = ({ output }: { output: unknown }) => {
+  if (typeof output === "string") {
+    return (
+      <RichText
+        className="rounded-md text-sm whitespace-pre-wrap"
+        proseClassName="prose prose-sm"
+      >
+        {output}
+      </RichText>
+    );
+  }
+
+  if (
+    Array.isArray(output) &&
+    typeof output[0] === "object" &&
+    !Array.isArray(output[0])
+  ) {
+    const keys = Object.keys(output[0]);
+
+    return (
+      <div className="prose prose-sm overflow-x-scroll">
+        <table>
+          <thead>
+            <tr>
+              {keys.map((key) => (
+                <th key={key}>{key}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {output.map((row, i) => (
+              <tr key={JSON.stringify(row) + i}>
+                {keys.map((key) => (
+                  <td key={key} className="text-left">
+                    {row[key]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  if (typeof output === "object" && output) {
+    const keys = Object.keys(output);
+    return (
+      <div className="prose prose-sm overflow-x-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {keys.map((key) => (
+              <tr key={key}>
+                <td>{key}</td>
+                <td>{output[key as keyof typeof output]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  return <pre>{JSON.stringify(output, null, 2)}</pre>;
+};

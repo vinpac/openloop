@@ -1,3 +1,5 @@
+import { green } from "tailwindcss/colors";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -9,7 +11,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      colors: {},
+      colors: {
+        primary: green,
+      },
     },
   },
   // eslint-disable-next-line no-undef

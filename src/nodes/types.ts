@@ -34,6 +34,8 @@ export type ExtractNode = Node<
     }>;
     label: string;
     isList: boolean;
+    prompt?: string;
+    model?: string;
   },
   "extract"
 >;
