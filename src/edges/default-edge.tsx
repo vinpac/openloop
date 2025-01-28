@@ -1,4 +1,9 @@
-import { BaseEdge, EdgeProps, getBezierPath } from "@xyflow/react";
+import {
+  BaseEdge,
+  EdgeLabelRenderer,
+  EdgeProps,
+  getBezierPath,
+} from "@xyflow/react";
 
 export function DefaultEdge({
   sourceX,
@@ -10,7 +15,7 @@ export function DefaultEdge({
   style = {},
   markerEnd,
 }: EdgeProps) {
-  const [edgePath] = getBezierPath({
+  const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
     sourcePosition,
@@ -22,6 +27,16 @@ export function DefaultEdge({
   return (
     <>
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
+      <EdgeLabelRenderer>
+        <div
+          style={{
+            transform: `translate(-50%, 0%) translate(${sourceX}px,${sourceY}px)`,
+          }}
+          className="edge-label-renderer__custom-edge nodrag nopan bg-black text-white w-24"
+        >
+          {/* render the output type here */}
+        </div>
+      </EdgeLabelRenderer>
       <foreignObject
         width="20"
         height="20"

@@ -1,7 +1,7 @@
-import { FileInputNode } from "@/nodes/types";
+import { AttachmentNode } from "@/nodes/types";
 import { WorkflowExecutor } from "@/workflow/types";
 
-const fileInput: WorkflowExecutor<FileInputNode> = async (node) => {
+const attachment: WorkflowExecutor<AttachmentNode> = async (node) => {
   if (!node.data.file) {
     throw new Error("File is required");
   }
@@ -9,4 +9,4 @@ const fileInput: WorkflowExecutor<FileInputNode> = async (node) => {
   return node.data.file;
 };
 
-export default fileInput;
+export default attachment;

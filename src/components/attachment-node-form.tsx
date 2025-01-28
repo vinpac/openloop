@@ -6,14 +6,14 @@ import {
 } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { useEvent } from "@/hooks/use-event";
-import { AppNode, FileInputNode } from "@/nodes/types";
+import { AppNode, AttachmentNode } from "@/nodes/types";
 import { useReactFlow } from "@xyflow/react";
 import { TbPdf, TbFileText, TbX } from "react-icons/tb";
 
-export const FileInputNodeForm = (node: AppNode) => {
+export const AttachmentNodeForm = (node: AppNode) => {
   const { updateNode } = useReactFlow();
   const storedFile = (
-    node.data as unknown as { file?: FileInputNode["data"]["file"] }
+    node.data as unknown as { file?: AttachmentNode["data"]["file"] }
   ).file;
   const handleFileChange = useEvent(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +34,7 @@ export const FileInputNodeForm = (node: AppNode) => {
                 size: file.size,
                 type: file.type,
                 content: await parseFileContent(file, reader.result),
-              } satisfies FileInputNode["data"]["file"],
+              } satisfies AttachmentNode["data"]["file"],
             },
           });
         };

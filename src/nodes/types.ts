@@ -1,11 +1,27 @@
 import type { Node, BuiltInNode } from "@xyflow/react";
 
-export type FileInputNode = Node<
+export type InputNode = Node<
+  {
+    label: string;
+    type: "file" | "text" | "number" | "date" | "boolean";
+    isList: boolean;
+  },
+  "input"
+>;
+export type OutputNode = Node<
+  {
+    label: string;
+    type: "file" | "text" | "number" | "date" | "boolean";
+    isList: boolean;
+  },
+  "output"
+>;
+export type AttachmentNode = Node<
   {
     label: string;
     file?: NodeFile;
   },
-  "file-input"
+  "attachment"
 >;
 
 type NodeFile = {
@@ -58,11 +74,12 @@ export type SubflowNode = Node<
 
 export type AppNode =
   | BuiltInNode
-  | FileInputNode
+  | AttachmentNode
   | LLMNode
   | ExtractNode
   | TextNode
-  | SubflowNode;
+  | SubflowNode
+  | InputNode;
 
 export type NodeExecutionState = {
   isRunning: boolean;

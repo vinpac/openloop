@@ -1,5 +1,5 @@
 import { DefaultNodeForm } from "@/components/default-node-form";
-import { FileInputNodeForm } from "@/components/file-input-node-form";
+import { AttachmentNodeForm } from "@/components/attachment-node-form";
 import { NodeIcon } from "@/components/node-icon";
 import {
   ContextMenu,
@@ -16,15 +16,17 @@ import { LoaderCircle } from "lucide-react";
 import { SubflowNodeForm } from "@/components/subflow-node-form";
 
 const NodeFormTypes = {
-  "file-input": FileInputNodeForm,
+  attachment: AttachmentNodeForm,
   subflow: SubflowNodeForm,
 };
 
 const cxByNodeType = {
   extract: "border-green-600 [&_[data-header]]:bg-green-100",
-  "file-input": "border-pink-600 [&_[data-header]]:bg-pink-100",
+  attachment: "border-pink-600 [&_[data-header]]:bg-pink-100",
   llm: "border-orange-600 [&_[data-header]]:bg-orange-100",
   subflow: "border-blue-600 [&_[data-header]]:bg-blue-100",
+  input: "border-pink-600 [&_[data-header]]:bg-pink-100",
+  output: "border-green-600 [&_[data-header]]:bg-green-100",
 };
 
 export const TaskNode = (node: AppNode) => {
@@ -63,7 +65,7 @@ export const TaskNode = (node: AppNode) => {
           "border-stone-300"
         }`}
       >
-        {node.type !== "file-input" && (
+        {node.type !== "attachment" && (
           <Handle position={Position.Top} type="target" />
         )}
         <Handle position={Position.Bottom} type="source" />

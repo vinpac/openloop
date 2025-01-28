@@ -33,8 +33,8 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
     executable: false,
   },
   {
-    id: "file-input",
-    name: "File Input",
+    id: "attachment",
+    name: "Attachment",
     description: "Accepts PDFs and Text Files",
     input: z.object({}),
   },
@@ -91,6 +91,44 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
       flowId: zField(z.string(), {
         label: "Flow ID",
         placeholder: "Enter flow ID",
+      }),
+    }),
+  },
+  {
+    id: "input",
+    name: "Input",
+    description: "An input node",
+    input: z.object({
+      label: zField(z.string(), {
+        label: "Label",
+        placeholder: "Enter a label",
+      }),
+      type: zField(z.enum(["file", "text", "number", "date", "boolean"]), {
+        label: "Type",
+        placeholder: "Select a type",
+      }),
+      isList: zField(z.boolean().default(false), {
+        label: "Is List",
+        placeholder: "Is the data a list?",
+      }),
+    }),
+  },
+  {
+    id: "output",
+    name: "Output",
+    description: "An output node",
+    input: z.object({
+      label: zField(z.string(), {
+        label: "Label",
+        placeholder: "Enter a label",
+      }),
+      type: zField(z.enum(["file", "text", "number", "date", "boolean"]), {
+        label: "Type",
+        placeholder: "Select a type",
+      }),
+      isList: zField(z.boolean().default(false), {
+        label: "Is List",
+        placeholder: "Is the data a list?",
       }),
     }),
   },
