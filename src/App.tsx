@@ -28,6 +28,7 @@ import { AppNode } from "@/nodes/types";
 import { Header } from "@/header";
 import { deserializeWorkflow } from "@/lib/share";
 import { useFlowStore, Flow } from "./stores/flow-store";
+import { FlowSelector } from "@/components/flow-selector";
 
 function Canvas({ flow }: { flow: Flow }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(flow?.nodes || []);
@@ -154,6 +155,8 @@ export default function App() {
   return (
     <ReactFlowProvider>
       <Header onRun={() => setIsPanelOpen(true)} />
+      <FlowSelector />
+
       {flow && <Canvas key={flow.id} flow={flow} />}
       <RunReportPanel
         isOpen={isPanelOpen}

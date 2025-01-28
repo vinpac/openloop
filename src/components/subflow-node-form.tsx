@@ -14,11 +14,15 @@ import { useState } from "react";
 export const SubflowNodeForm = (node: SubflowNode) => {
   const { flows, setActiveFlow, addFlow } = useFlowStore();
   const [isOpen, setIsOpen] = useState(false);
-  const { updateNode } = useReactFlow();
+  const { updateNode, setEdges } = useReactFlow();
 
   const activeFlow = flows.find((f) => f.id === node.data.flowId);
 
   const onChange = (flowId: string) => {
+    if (flowId === node.data.flowId) return;
+
+    // remove edges to this node
+    setEdges((eds) => eds.filter((e) => e.target !== node.id));
     updateNode(node.id, {
       data: {
         flowId,

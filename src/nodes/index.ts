@@ -1,12 +1,13 @@
 import type { NodeTypes } from "@xyflow/react";
 
-import { AppNode } from "./types";
+import { AppNode, InputNode, OutputNode } from "./types";
 import { z } from "zod";
 import { TaskNode } from "@/components/task-node";
 import { zField } from "@/components/zod-form/helpers";
 import defaultFlow from "@/default-flow.json";
 import { TextNode } from "@/components/text-node";
 import { SubflowNode } from "@/components/subflow-node";
+import { useFlowStore } from "@/stores/flow-store";
 
 export const defaultInitialNodes = defaultFlow.nodes as AppNode[];
 
@@ -103,10 +104,13 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
         label: "Label",
         placeholder: "Enter a label",
       }),
-      type: zField(z.enum(["file", "text", "number", "date", "boolean"]), {
-        label: "Type",
-        placeholder: "Select a type",
-      }),
+      type: zField(
+        z.enum(["file", "text", "number", "date", "boolean", "dictionary"]),
+        {
+          label: "Type",
+          placeholder: "Select a type",
+        }
+      ),
       isList: zField(z.boolean().default(false), {
         label: "Is List",
         placeholder: "Is the data a list?",
@@ -122,10 +126,13 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
         label: "Label",
         placeholder: "Enter a label",
       }),
-      type: zField(z.enum(["file", "text", "number", "date", "boolean"]), {
-        label: "Type",
-        placeholder: "Select a type",
-      }),
+      type: zField(
+        z.enum(["file", "text", "number", "date", "boolean", "dictionary"]),
+        {
+          label: "Type",
+          placeholder: "Select a type",
+        }
+      ),
       isList: zField(z.boolean().default(false), {
         label: "Is List",
         placeholder: "Is the data a list?",
@@ -149,3 +156,127 @@ export const nodeTypes = {
 export const nodeDefinitionById = Object.fromEntries(
   NODE_DEFINITIONS.map((nodeDefinition) => [nodeDefinition.id, nodeDefinition])
 );
+
+export type PrimitiveType =
+  | "text"
+  | "file"
+  | "number"
+  | "date"
+  | "boolean"
+  | "dictionary"
+  | "any";
+
+export type TypedHandle =
+  | {
+      id?: string;
+      label?: string;
+      isList?: boolean;
+      type: PrimitiveType;
+    }
+  | {
+      id?: string;
+      isList: boolean;
+      label?: string;
+      type: "union";
+      types: PrimitiveType[];
+    };
+
+export function getNodeSourceHandles(node: AppNode): TypedHandle[] {
+  switch (node.type) {
+    case "input":
+      return [
+        {
+          id: (node as InputNode).data.label,
+          type: (node as InputNode).data.type,
+          isList: (node as InputNode).data.isList,
+        },
+      ];
+    case "extract":
+      return [
+        {
+          type: "dictionary",
+          isList: node.data.isList || false,
+        },
+      ];
+    case "llm":
+      return [
+        {
+          type: "text",
+          isList: false,
+        },
+      ];
+    case "attachment":
+      return [
+        {
+          type: "file",
+          isList: false,
+        },
+      ];
+    case "subflow": {
+      const flow = useFlowStore
+        .getState()
+        .flows.find((flow) => flow.id === (node as SubflowNode).data.flowId);
+
+      if (!flow) {
+        return [];
+      }
+
+      const outputNodes = flow.nodes.filter((node) => node.type === "output");
+
+      return outputNodes.map((node) => ({
+        id: node.id,
+        label: (node as OutputNode).data.label,
+        type: (node as OutputNode).data.type,
+        isList: (node as OutputNode).data.isList,
+      }));
+    }
+    default:
+      return [];
+  }
+}
+
+export function getNodeTargetHandles(node: AppNode): TypedHandle[] {
+  switch (node.type) {
+    case "extract":
+      return [
+        {
+          type: "any",
+          isList: true,
+        },
+      ];
+    case "llm":
+      return [
+        {
+          type: "any",
+          isList: true,
+        },
+      ];
+    case "subflow": {
+      const flow = useFlowStore
+        .getState()
+        .flows.find((flow) => flow.id === (node as SubflowNode).data.flowId);
+
+      if (!flow) {
+        return [];
+      }
+
+      const inputNodes = flow.nodes.filter((node) => node.type === "input");
+
+      return inputNodes.map((node) => ({
+        id: node.id,
+        label: (node as InputNode).data.label,
+        type: (node as InputNode).data.type,
+        isList: (node as InputNode).data.isList,
+      }));
+    }
+    case "output":
+      return [
+        {
+          type: (node as OutputNode).data.type,
+          isList: (node as OutputNode).data.isList,
+        },
+      ];
+    default:
+      return [];
+  }
+}
