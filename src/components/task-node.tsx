@@ -13,15 +13,18 @@ import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { useState } from "react";
 import { useNodeExecutionStore } from "@/stores/node-execution-store";
 import { LoaderCircle } from "lucide-react";
+import { SubflowNodeForm } from "@/components/subflow-node-form";
 
 const NodeFormTypes = {
   "file-input": FileInputNodeForm,
+  subflow: SubflowNodeForm,
 };
 
 const cxByNodeType = {
   extract: "border-green-600 [&_[data-header]]:bg-green-100",
   "file-input": "border-pink-600 [&_[data-header]]:bg-pink-100",
   llm: "border-orange-600 [&_[data-header]]:bg-orange-100",
+  subflow: "border-blue-600 [&_[data-header]]:bg-blue-100",
 };
 
 export const TaskNode = (node: AppNode) => {

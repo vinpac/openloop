@@ -17,16 +17,10 @@ import { MdCheckCircle, MdError } from "react-icons/md";
 interface RunReportPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  edges: Edge[];
-  nodes: AppNode[];
 }
 
-export function RunReportPanel({
-  isOpen,
-  onClose,
-  edges,
-  nodes,
-}: RunReportPanelProps) {
+export function RunReportPanel({ isOpen, onClose }: RunReportPanelProps) {
+  return null;
   const nodeStates = useNodeExecutionStore((state) => state.nodes);
   const outputNodesIds = useMemo(() => {
     // return the nodes that have no outgoing edges

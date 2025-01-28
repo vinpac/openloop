@@ -48,12 +48,21 @@ export type TextNode = Node<
   "text"
 >;
 
+export type SubflowNode = Node<
+  {
+    flowId: string;
+    label?: string;
+  },
+  "subflow"
+>;
+
 export type AppNode =
   | BuiltInNode
   | FileInputNode
   | LLMNode
   | ExtractNode
-  | TextNode;
+  | TextNode
+  | SubflowNode;
 
 export type NodeExecutionState = {
   isRunning: boolean;

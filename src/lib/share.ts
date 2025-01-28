@@ -1,5 +1,6 @@
 import { AppNode } from "@/nodes/types";
 import { Edge } from "@xyflow/react";
+import { Flow } from "@/stores/flow-store";
 
 const encodeBase64 = (str: string) => {
   const encoder = new TextEncoder();
@@ -14,25 +15,38 @@ const decodeBase64 = (str: string) => {
   return decoder.decode(bytes); // Decode UTF-8 bytes back to the original string
 };
 
-export function serializeWorkflow(nodes: AppNode[], edges: Edge[]): string {
-  const state = {
-    nodes,
-    edges,
-  };
+const filterNodeProps = (node: AppNode) => {
+  const { id, data, type, position } = node;
+  return { id, data, type, position };
+};
+
+export function serializeWorkflow(flows: Flow[]): string {
+  const state = flows.map((flow) => ({
+    id: flow.id,
+    name: flow.name,
+    nodes: flow.nodes.map(filterNodeProps),
+    edges: flow.edges,
+  }));
 
   return encodeURIComponent(encodeBase64(JSON.stringify(state)));
 }
 
-export function deserializeWorkflow(data: string): {
+interface DecodedFlow {
+  id: string;
+  name: string;
   nodes: AppNode[];
   edges: Edge[];
-} {
+}
+
+export function deserializeWorkflow(data: string): Flow[] {
   try {
     const decoded = JSON.parse(decodeBase64(decodeURIComponent(data)));
-    return {
-      nodes: decoded.nodes,
-      edges: decoded.edges,
-    };
+    return decoded.map((flow: DecodedFlow) => ({
+      id: flow.id,
+      name: flow.name,
+      nodes: flow.nodes,
+      edges: flow.edges,
+    }));
   } catch (e) {
     console.error("Failed to deserialize workflow:", e);
     throw new Error("Invalid workflow data");

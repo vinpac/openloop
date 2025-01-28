@@ -1,9 +1,11 @@
-import { AppNode } from "@/nodes/types";
+import { AppNode, NodeExecutionState } from "@/nodes/types";
 import { NodeState, WorkflowInput } from "@/workflow/types";
 import { WORKFLOW_EXECUTORS } from "@/workflow/executors";
 import { nodeDefinitionById } from "@/nodes";
 
-export async function runWorkflow(workflowInput: WorkflowInput) {
+export async function runWorkflow(
+  workflowInput: WorkflowInput
+): Promise<Record<string, NodeExecutionState>> {
   const { onNodeStateChange, nodes: allNodes, edges } = workflowInput;
   const nodes = allNodes.filter(
     (n) =>
@@ -12,6 +14,7 @@ export async function runWorkflow(workflowInput: WorkflowInput) {
   );
   // Initialize call stack state
   const callStack = new Map<string, NodeState>();
+  const nodeStates: Record<string, NodeExecutionState> = {};
 
   // Count incoming edges for each node
   edges.forEach((edge) => {
@@ -27,7 +30,9 @@ export async function runWorkflow(workflowInput: WorkflowInput) {
     if (!node) return;
     const startedAt = Date.now();
 
-    onNodeStateChange(nodeId, { isRunning: true, startedAt });
+    const newState: NodeExecutionState = { isRunning: true, startedAt };
+    nodeStates[nodeId] = newState;
+    onNodeStateChange(nodeId, newState);
 
     console.info(`[node:${nodeId}] started`);
     try {
@@ -57,11 +62,13 @@ export async function runWorkflow(workflowInput: WorkflowInput) {
         finishedAt,
       });
 
-      onNodeStateChange(nodeId, {
+      const updatedState: NodeExecutionState = {
         isRunning: false,
         output,
         finishedAt,
-      });
+      };
+      nodeStates[nodeId] = updatedState;
+      onNodeStateChange(nodeId, updatedState);
 
       // sleep for 50ms to provide a visual delay for the challenge
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -85,11 +92,13 @@ export async function runWorkflow(workflowInput: WorkflowInput) {
         }
       }
     } catch (error) {
-      onNodeStateChange(nodeId, {
+      const errorState: NodeExecutionState = {
         isRunning: false,
         error: error instanceof Error ? error.message : "An error occurred",
         finishedAt: Date.now(),
-      });
+      };
+      nodeStates[nodeId] = errorState;
+      onNodeStateChange(nodeId, errorState);
     }
   };
 
@@ -102,4 +111,6 @@ export async function runWorkflow(workflowInput: WorkflowInput) {
   for (const node of rootNodes) {
     await runNode(node.id);
   }
+
+  return nodeStates;
 }

@@ -6,6 +6,7 @@ import { TaskNode } from "@/components/task-node";
 import { zField } from "@/components/zod-form/helpers";
 import defaultFlow from "@/default-flow.json";
 import { TextNode } from "@/components/text-node";
+import { SubflowNode } from "@/components/subflow-node";
 
 export const defaultInitialNodes = defaultFlow.nodes as AppNode[];
 
@@ -81,6 +82,17 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
       ),
     }),
     description: "Extracts data from the previous node's output.",
+  },
+  {
+    id: "subflow",
+    name: "Subflow",
+    description: "A node that represents another flow",
+    input: z.object({
+      flowId: zField(z.string(), {
+        label: "Flow ID",
+        placeholder: "Enter flow ID",
+      }),
+    }),
   },
 ];
 

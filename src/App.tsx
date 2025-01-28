@@ -27,18 +27,19 @@ import { nanoid } from "nanoid";
 import { AppNode } from "@/nodes/types";
 import { Header } from "@/header";
 import { deserializeWorkflow } from "@/lib/share";
+import { useFlowStore, Flow } from "./stores/flow-store";
 
-function Canvas({
-  initialNodes,
-  initialEdges,
-}: {
-  initialNodes: AppNode[];
-  initialEdges: Edge[];
-}) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+function Canvas({ flow }: { flow: Flow }) {
+  const [nodes, setNodes, onNodesChange] = useNodesState(flow?.nodes || []);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(flow?.edges || []);
   const contextMenuElementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    useFlowStore.getState().updateFlow(flow.id, {
+      nodes,
+      edges,
+    });
+  }, [nodes, edges, flow.id]);
 
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((edges) => addEdge(connection, edges)),
@@ -73,17 +74,6 @@ function Canvas({
     ]);
   });
 
-  // I'm not the biggest fan of useEffect, but it's a quick way to persist the nodes and edges to local storage
-  useEffect(() => {
-    // persist nodes to local storage
-    localStorage.setItem("nodes", JSON.stringify(nodes));
-  }, [nodes]);
-
-  useEffect(() => {
-    // persist edges to local storage
-    localStorage.setItem("edges", JSON.stringify(edges));
-  }, [edges]);
-
   const nodesWithClassNames = useMemo(() => {
     return nodes.map((n) => ({
       ...n,
@@ -109,13 +99,6 @@ function Canvas({
           panOnScroll
         >
           <Background className="bg-stone-100" />
-          <Header onRun={() => setIsPanelOpen(true)} />
-          <RunReportPanel
-            edges={edges}
-            nodes={nodes}
-            isOpen={isPanelOpen}
-            onClose={() => setIsPanelOpen(false)}
-          />
         </ReactFlow>
       </ContextMenuTrigger>
       <ContextMenuContent ref={contextMenuElementRef}>
@@ -126,45 +109,56 @@ function Canvas({
 }
 
 export default function App() {
-  const [initialNodes, setInitialNodes] = useState<AppNode[] | null>(null);
-  const [initialEdges, setInitialEdges] = useState<Edge[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const flow = useFlowStore((state) =>
+    state.flows.find((f) => f.id === state.activeFlowId)
+  );
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   useEffect(() => {
     // Try to load workflow from URL parameters first
     const params = new URLSearchParams(window.location.search);
     const flowData = params.get("flow");
 
+    if (useFlowStore.getState().flows.length > 0) {
+      setIsLoading(false);
+      return;
+    }
+
     if (flowData) {
       try {
-        const { nodes, edges } = deserializeWorkflow(flowData);
-        setInitialNodes(nodes);
-        setInitialEdges(edges);
-        return;
+        const flows = deserializeWorkflow(flowData);
+        useFlowStore.setState({ flows, activeFlowId: flows[0].id });
       } catch (e) {
         console.error("Failed to load workflow from URL:", e);
       }
+    } else {
+      // Create default flow
+      const flow: Flow = {
+        id: nanoid(),
+        name: "Main Flow",
+        nodes: defaultInitialNodes,
+        edges: defaultInitialEdges,
+      };
+      useFlowStore.setState({
+        flows: [flow],
+        activeFlowId: flow.id,
+      });
     }
 
-    // Fall back to localStorage if no URL parameters
-    const nodes = localStorage.getItem("nodes");
-    const edges = localStorage.getItem("edges");
-    if (nodes && !initialNodes) {
-      setInitialNodes(JSON.parse(nodes));
-    } else if (!initialNodes) {
-      setInitialNodes(defaultInitialNodes);
-    }
-    if (edges && !initialEdges) {
-      setInitialEdges(JSON.parse(edges));
-    } else if (!initialEdges) {
-      setInitialEdges(defaultInitialEdges);
-    }
-  }, [initialNodes, initialEdges]);
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) return null;
 
   return (
     <ReactFlowProvider>
-      {initialNodes && initialEdges && (
-        <Canvas initialNodes={initialNodes} initialEdges={initialEdges} />
-      )}
+      <Header onRun={() => setIsPanelOpen(true)} />
+      {flow && <Canvas key={flow.id} flow={flow} />}
+      <RunReportPanel
+        isOpen={isPanelOpen}
+        onClose={() => setIsPanelOpen(false)}
+      />
       <Toaster />
     </ReactFlowProvider>
   );
