@@ -7,7 +7,8 @@ const extract: NodeExecutor<ExtractNode> = async (
   inputs,
   { openaiKey, onNodeStateChange }
 ) => {
-  if (!inputs.length) {
+  const values = Object.values(inputs);
+  if (!values.length) {
     throw new Error(
       `No inputs provided for extract node labelled ${node.data.label}`
     );
@@ -42,7 +43,7 @@ ${node.data.prompt ?? ""}`;
     model: node.data.model ?? "gpt-4o-mini",
     messages: [
       { role: "system", content: systemPrompt },
-      { role: "user", content: JSON.stringify(Object.values(inputs)) },
+      { role: "user", content: JSON.stringify(values) },
     ],
     onToken: (token) => {
       generated += token;
