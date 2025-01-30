@@ -30,7 +30,7 @@ export function FlowSelector() {
   };
 
   return (
-    <div className="fixed bg-white flex-nowrap items-center whitespace-nowrap overflow-x-auto no-scrollbar border-t bottom-0 left-0 right-0 flex gap-1 px-2 py-1.5 z-50">
+    <div className="fixed bg-white h-11 flex-nowrap items-center whitespace-nowrap overflow-x-auto no-scrollbar border-t bottom-0 left-0 right-0 flex gap-1 px-2 py-1.5 z-50">
       {flows.map((flow, i) => {
         const isActive = activeFlowId === flow.id;
         const button = (

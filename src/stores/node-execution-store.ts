@@ -1,7 +1,10 @@
 import { NodeExecutionState, NodeExecutionStore } from "@/nodes/types";
+import { z } from "zod";
 import { create } from "zustand";
 
 interface State {
+  inputSchema?: z.ZodObject<Record<string, z.ZodType<unknown>>>;
+  input?: Record<string, unknown>;
   nodes: NodeExecutionStore;
   setNodeState: (
     nodeId: string,
@@ -10,7 +13,7 @@ interface State {
   clearAllStates: () => void;
 }
 
-export const useNodeExecutionStore = create<State>((set) => ({
+export const useWorkflowExecutionStore = create<State>((set) => ({
   nodes: {},
   setNodeState: (nodeId, stateFn) =>
     set((prev) => ({
@@ -22,4 +25,4 @@ export const useNodeExecutionStore = create<State>((set) => ({
   clearAllStates: () => set({ nodes: {} }),
 }));
 
-export type NodeExecutionStoreState = State;
+export type WorkflowExecutionStoreState = State;

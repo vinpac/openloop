@@ -1,12 +1,12 @@
 import { streamOpenAIResponse } from "@/lib/openai";
 import { LLMNode } from "@/nodes/types";
-import { WorkflowExecutor } from "@/workflow/types";
+import { NodeExecutor } from "@/workflow/types";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
-const llm: WorkflowExecutor<LLMNode> = async (
+const llm: NodeExecutor<LLMNode> = async (
   node,
   inputs,
-  { ctx, onNodeStateChange },
+  { openaiKey, onNodeStateChange },
   { log }
 ) => {
   if (!node.data.prompt) {
@@ -16,7 +16,7 @@ const llm: WorkflowExecutor<LLMNode> = async (
   let generated = "";
 
   const inputMessages: ChatCompletionMessageParam[] =
-    inputs?.map((input) => ({
+    Object.values(inputs)?.map((input) => ({
       role: "user",
       content: typeof input === "string" ? input : JSON.stringify(input),
     })) || [];
@@ -24,10 +24,10 @@ const llm: WorkflowExecutor<LLMNode> = async (
     { role: "system", content: node.data.prompt },
     ...inputMessages,
   ];
-  log(`[node:${node.id}] llm messages:`, { messages });
+  log(`llm messages:`, { messages });
 
   return await streamOpenAIResponse({
-    apiKey: ctx.openaiKey,
+    apiKey: openaiKey,
     model: node.data.model || "gpt-3.5-turbo",
     messages,
     onToken: (token) => {

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { TypedHandle } from "@/nodes";
-import { Handle, Position, useReactFlow } from "@xyflow/react";
+import { Handle, Position } from "@xyflow/react";
 
 export const TypedHandles = ({
   handles,

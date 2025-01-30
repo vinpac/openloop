@@ -1,11 +1,11 @@
 import { ExtractNode } from "@/nodes/types";
-import { WorkflowExecutor } from "@/workflow/types";
+import { NodeExecutor } from "@/workflow/types";
 import { streamOpenAIResponse } from "@/lib/openai";
 
-const extract: WorkflowExecutor<ExtractNode> = async (
+const extract: NodeExecutor<ExtractNode> = async (
   node,
   inputs,
-  { ctx, onNodeStateChange }
+  { openaiKey, onNodeStateChange }
 ) => {
   if (!inputs.length) {
     throw new Error(
@@ -38,11 +38,11 @@ ${node.data.prompt ?? ""}`;
   let generated = "";
 
   const result = await streamOpenAIResponse({
-    apiKey: ctx.openaiKey,
+    apiKey: openaiKey,
     model: node.data.model ?? "gpt-4o-mini",
     messages: [
       { role: "system", content: systemPrompt },
-      { role: "user", content: JSON.stringify(inputs) },
+      { role: "user", content: JSON.stringify(Object.values(inputs)) },
     ],
     onToken: (token) => {
       generated += token;

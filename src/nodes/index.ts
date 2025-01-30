@@ -1,12 +1,12 @@
 import type { NodeTypes } from "@xyflow/react";
 
-import { AppNode, InputNode, OutputNode } from "./types";
+import { AppNode, InputNode, OutputNode, SubflowNode } from "./types";
 import { z } from "zod";
 import { TaskNode } from "@/components/task-node";
 import { zField } from "@/components/zod-form/helpers";
 import defaultFlow from "@/default-flow.json";
 import { TextNode } from "@/components/text-node";
-import { SubflowNode } from "@/components/subflow-node";
+
 import { useFlowStore } from "@/stores/flow-store";
 
 export const defaultInitialNodes = defaultFlow.nodes as AppNode[];
@@ -100,10 +100,6 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
     name: "Input",
     description: "An input node",
     input: z.object({
-      label: zField(z.string(), {
-        label: "Label",
-        placeholder: "Enter a label",
-      }),
       type: zField(
         z.enum(["file", "text", "number", "date", "boolean", "dictionary"]),
         {
@@ -122,10 +118,6 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
     name: "Output",
     description: "An output node",
     input: z.object({
-      label: zField(z.string(), {
-        label: "Label",
-        placeholder: "Enter a label",
-      }),
       type: zField(
         z.enum(["file", "text", "number", "date", "boolean", "dictionary"]),
         {

@@ -11,7 +11,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { AppNode } from "@/nodes/types";
 import { Position, useReactFlow } from "@xyflow/react";
 import { useMemo, useState } from "react";
-import { useNodeExecutionStore } from "@/stores/node-execution-store";
+import { useWorkflowExecutionStore } from "@/stores/node-execution-store";
 import { LoaderCircle } from "lucide-react";
 import { SubflowNodeForm } from "@/components/subflow-node-form";
 import { getNodeSourceHandles, getNodeTargetHandles } from "@/nodes";
@@ -56,7 +56,9 @@ export const TaskNode = (node: AppNode) => {
   };
 
   const hasErrors = errors && errors?.length !== 0;
-  const executionState = useNodeExecutionStore((state) => state.nodes[node.id]);
+  const executionState = useWorkflowExecutionStore(
+    (state) => state.nodes[node.id]
+  );
   const isRunning = executionState?.isRunning;
   const sourceHandles = useMemo(() => getNodeSourceHandles(node), [node]);
   const targetHandles = useMemo(() => getNodeTargetHandles(node), [node]);
@@ -66,11 +68,11 @@ export const TaskNode = (node: AppNode) => {
       <ContextMenuTrigger
         className={`bg-white relative pb-2 data-[state=open]:ring-2 data-[state=open]:ring-stone-950 data-[state=open]:border-stone-950 w-[280px] cursor-default block rounded-md border-2 transition-opacity duration-75 group-[&.dragging_*]/node:!cursor-grabbing ${
           isRunning
-            ? "animate-border-path !border-0 !p-0.5 ring-inset ring-4 ring-green-200"
+            ? "animate-border-path !border-0 !p-0.5  ring-4 ring-green-200"
             : executionState?.error
-            ? "!border-0 p-0.5 ring-inset ring-4 duration-200 transition-all ring-red-500"
+            ? "!border-0 p-0.5  ring-4 duration-200 transition-all ring-red-500"
             : executionState?.finishedAt
-            ? "!border-0 p-0.5 ring-inset ring-4 duration-200 transition-all ring-green-500"
+            ? "!border-0 p-0.5  ring-4 duration-200 transition-all ring-green-500"
             : ""
         } ${
           hasErrors
@@ -117,7 +119,8 @@ export const TaskNode = (node: AppNode) => {
             <LoaderCircle className="w-4 h-4 animate-spin text-green-600" />
           )}
         </header>
-        {NodeForm && <NodeForm {...node} />}
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {NodeForm && <NodeForm {...(node as any)} />}
         {!NodeForm && <DefaultNodeForm {...node} />}
         {hasErrors ? (
           <div className="flex flex-col gap-1 px-2">

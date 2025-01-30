@@ -1,3 +1,4 @@
+import { AttachedFile } from "@/components/file-input";
 import type { Node, BuiltInNode } from "@xyflow/react";
 
 export type InputNode = Node<
@@ -19,17 +20,10 @@ export type OutputNode = Node<
 export type AttachmentNode = Node<
   {
     label: string;
-    file?: NodeFile;
+    file?: AttachedFile;
   },
   "attachment"
 >;
-
-type NodeFile = {
-  name: string;
-  size: number;
-  type: string;
-  content: string;
-};
 
 export type LLMNode = Node<
   {
@@ -87,6 +81,7 @@ export type NodeExecutionState = {
   error?: string;
   startedAt?: number;
   finishedAt?: number;
+  flowId: string;
 };
 
 export type NodeExecutionStore = Record<string, NodeExecutionState>;

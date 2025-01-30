@@ -1,7 +1,5 @@
-import { getNodeSourceHandles } from "@/nodes";
 import {
   BaseEdge,
-  EdgeLabelRenderer,
   EdgeProps,
   getBezierPath,
 } from "@xyflow/react";

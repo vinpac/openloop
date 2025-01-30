@@ -20,6 +20,7 @@ import { Switch, SwitchProps } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { TbTrash } from "react-icons/tb";
+import { AttachedFile, FileInput } from "@/components/file-input";
 
 export const ZodFieldComponent = ({
   name,
@@ -30,12 +31,14 @@ export const ZodFieldComponent = ({
   onChange,
   value,
   depth = 0,
+  typeName,
 }: ZField & {
   schema: ZodFirstPartySchemaTypes;
   name: string;
   value: unknown;
   onChange: (name: string, value: unknown) => void;
   depth?: number;
+  typeName?: string;
 }) => {
   const props = {
     key: name,
@@ -48,7 +51,7 @@ export const ZodFieldComponent = ({
     case "ZodObject": {
       const { shape } = schema as AnyZodObject;
       return (
-        <div className="flex gap-2 flex-col">
+        <div data-zod-type="object" className="flex gap-2 flex-col">
           {Object.entries(shape).map(([name, prop]) => {
             const propSchema = zodSchemaToInnerSchema(prop as ZodSchema);
             const zFieldProps = parseZField(prop as ZodSchema);
@@ -64,6 +67,7 @@ export const ZodFieldComponent = ({
                 )}
                 <ZodFieldComponent
                   {...zFieldProps}
+                  typeName={zFieldProps.typeName || propSchema._def.typeName}
                   name={name}
                   schema={propSchema}
                   onChange={(fieldName, nextFieldValue) =>
@@ -85,13 +89,31 @@ export const ZodFieldComponent = ({
         </div>
       );
     }
+    case "ZodRecord": {
+      if (typeName === "file") {
+        return (
+          <FileInput
+            value={value as AttachedFile}
+            onChange={(value) => onChange(name, value)}
+          />
+        );
+      }
+
+      return (
+        <Textarea
+          {...(props as TextareaAutosizeProps)}
+          minRows={minRows}
+          placeholder={placeholder}
+          onChange={(e) => onChange(name, e.target.value)}
+        />
+      );
+    }
     case "ZodArray": {
       const items = Array.isArray(value) ? value : [];
-      const addItem = () => {
-        onChange(name, [...items, {}]);
-      };
-
       const itemSchema = zodSchemaToInnerSchema(schema._def.type);
+      const addItem = () => {
+        onChange(name, [...items, undefined]);
+      };
       return (
         <div className="flex gap-2 flex-col">
           {items.map((item, index) => (
@@ -129,9 +151,8 @@ export const ZodFieldComponent = ({
           ))}
           <Button
             type="button"
-            variant="secondary"
-            className="w-full"
-            size="sm"
+            variant="ghost"
+            className="w-full bg-white border-2"
             onClick={addItem}
           >
             <PlusIcon className="w-4 h-4" />
@@ -140,6 +161,16 @@ export const ZodFieldComponent = ({
         </div>
       );
     }
+    case "ZodNumber":
+      return (
+        <Input
+          {...(props as Omit<React.ComponentProps<"input">, "ref">)}
+          placeholder={placeholder}
+          onChange={(e) => onChange(name, e.target.value)}
+          type="number"
+          value={(props.value as string) || ""}
+        />
+      );
     case "ZodString":
       if (minRows) {
         return (
@@ -148,6 +179,7 @@ export const ZodFieldComponent = ({
             minRows={minRows}
             placeholder={placeholder}
             onChange={(e) => onChange(name, e.target.value)}
+            value={(props.value as string) || ""}
           />
         );
       }
@@ -157,6 +189,7 @@ export const ZodFieldComponent = ({
           {...(props as Omit<React.ComponentProps<"input">, "ref">)}
           placeholder={placeholder}
           onChange={(e) => onChange(name, e.target.value)}
+          value={(props.value as string) || ""}
         />
       );
     case "ZodBoolean":

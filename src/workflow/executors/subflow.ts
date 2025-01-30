@@ -1,36 +1,36 @@
 import { SubflowNode } from "@/nodes/types";
-import { WorkflowExecutor } from "@/workflow/types";
-import { useFlowStore } from "@/stores/flow-store";
-import { runWorkflow } from "@/workflow/run";
+import { NodeExecutor } from "@/workflow/types";
+import { runFlow } from "@/workflow/run";
 
-const subflow: WorkflowExecutor<SubflowNode> = async (
+const subflow: NodeExecutor<SubflowNode> = async (
   node,
   inputs,
-  workflowInput,
-  { log }
-) => {
-  const flowStore = useFlowStore.getState();
-  const targetFlow = flowStore.getFlow(node.data.flowId);
+  ctx
+): Promise<Record<string, unknown>> => {
+  console.log(inputs, ctx);
+  // Return the outputs of all leaf nodes (nodes with no outgoing edges)
+  const flow = ctx.flows.find((f) => f.id === node.data.flowId);
 
-  if (!targetFlow) {
-    throw new Error(`No flow found with ID: ${node.data.flowId}`);
+  if (!flow) {
+    throw new Error(`Unable to find flow ${node.data.flowId}`);
   }
 
-  log("Running subflow:", targetFlow.name);
-
   // Create a new execution context for the subflow
-  const nodeStates = await runWorkflow({
-    ...workflowInput,
-    nodes: targetFlow.nodes,
-    edges: targetFlow.edges,
+  const outputs = await runFlow({
+    ...ctx,
+    flowId: flow.id,
+    inputs,
   });
 
-  // Return the outputs of all leaf nodes (nodes with no outgoing edges)
-  const leafNodes = targetFlow.nodes.filter(
-    (n) => !targetFlow.edges.some((e) => e.source === n.id)
-  );
+  const outputNodesIds = flow.nodes
+    .filter((n) => n.type === "output")
+    .map((o) => o.id);
 
-  return leafNodes.map((n) => nodeStates[n.id]?.output);
+  return Object.fromEntries(
+    Array.from(outputs.entries()).filter(([key]) =>
+      outputNodesIds.includes(key)
+    )
+  );
 };
 
 export default subflow;

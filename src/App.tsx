@@ -158,10 +158,13 @@ export default function App() {
       <FlowSelector />
 
       {flow && <Canvas key={flow.id} flow={flow} />}
-      <RunReportPanel
-        isOpen={isPanelOpen}
-        onClose={() => setIsPanelOpen(false)}
-      />
+      {flow && (
+        <RunReportPanel
+          isOpen={isPanelOpen}
+          onClose={() => setIsPanelOpen(false)}
+          flow={flow}
+        />
+      )}
       <Toaster />
     </ReactFlowProvider>
   );

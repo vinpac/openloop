@@ -87,7 +87,7 @@ export function FileDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={handleReset}>
           <Trash />
-          Reset Flow
+          Reset
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

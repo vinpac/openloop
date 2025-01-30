@@ -1,7 +1,7 @@
 import { AttachmentNode } from "@/nodes/types";
-import { WorkflowExecutor } from "@/workflow/types";
+import { NodeExecutor } from "@/workflow/types";
 
-const attachment: WorkflowExecutor<AttachmentNode> = async (node) => {
+const attachment: NodeExecutor<AttachmentNode> = async (node) => {
   if (!node.data.file) {
     throw new Error("File is required");
   }

@@ -4,6 +4,7 @@ export type ZField = {
   label?: string;
   placeholder?: string;
   minRows?: number;
+  typeName?: string;
 };
 
 export function zField<T extends ZodFirstPartySchemaTypes>(

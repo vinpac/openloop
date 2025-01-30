@@ -6,10 +6,11 @@ import { z, ZodSchema } from "zod";
 
 interface FormProps<T extends ZodSchema> {
   schema: T;
-  initialValues: z.infer<T>;
-  onChange: (values: z.infer<T>) => void;
+  initialValues?: z.infer<T>;
+  onChange?: (values: z.infer<T>) => void;
   className?: string;
   children?: React.ReactNode;
+  onSubmit?: (values: z.infer<T>) => void;
 }
 
 export const ZodForm = React.memo(
@@ -19,6 +20,8 @@ export const ZodForm = React.memo(
     onChange,
     className,
     children,
+    onSubmit,
+    ...props
   }: FormProps<T>) => {
     // I will fake a form implementation here
     // in prod one is better suited with react-final-form or other form lib
@@ -28,9 +31,10 @@ export const ZodForm = React.memo(
       setValues(value);
       onChange?.(value);
     };
-
-    // const
-    // return null
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      onSubmit?.(values);
+    };
 
     const schema = useMemo(
       () => zodSchemaToInnerSchema(rootSchema),
@@ -38,7 +42,7 @@ export const ZodForm = React.memo(
     );
 
     return (
-      <form className={cx("", className)}>
+      <form {...props} onSubmit={handleSubmit} className={cx("", className)}>
         <ZodFieldComponent
           name=""
           schema={schema}
