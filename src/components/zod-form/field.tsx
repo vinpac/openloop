@@ -77,7 +77,7 @@ export const ZodFieldComponent = ({
                     })
                   }
                   value={
-                    (value as Record<string, unknown>)[
+                    (value as Record<string, unknown>)?.[
                       name as keyof typeof value
                     ]
                   }

@@ -178,7 +178,6 @@ export function getNodeSourceHandles(node: AppNode): TypedHandle[] {
     case "input":
       return [
         {
-          id: (node as InputNode).data.label,
           type: (node as InputNode).data.type,
           isList: (node as InputNode).data.isList,
         },
