@@ -1,6 +1,12 @@
 import type { NodeTypes } from "@xyflow/react";
 
-import { AppNode, InputNode, OutputNode, SubflowNode } from "./types";
+import {
+  AppNode,
+  InputNode,
+  OutputNode,
+  SubflowNode,
+  JavaScriptNode,
+} from "./types";
 import { z } from "zod";
 import { TaskNode } from "@/components/task-node";
 import { zField } from "@/components/zod-form/helpers";
@@ -131,6 +137,42 @@ export const NODE_DEFINITIONS: NodeDefinition[] = [
       }),
     }),
   },
+  {
+    id: "javascript",
+    name: "JavaScript",
+    description:
+      "Execute custom JavaScript code with inputs and produce an output",
+    input: z.object({
+      code: zField(z.string(), {
+        label: "Code",
+        placeholder: "Write your JavaScript code here",
+        minRows: 4,
+      }),
+
+      inputs: zField(
+        z.array(
+          z.object({
+            name: z.string(),
+            type: z.enum(["text", "number", "date", "boolean", "dictionary"]),
+            isList: z.boolean().default(false),
+          })
+        ),
+        {
+          label: "Inputs",
+          placeholder: "Add inputs",
+        }
+      ),
+      outputType: zField(z.enum(["text", "number", "boolean", "dictionary"]), {
+        label: "Output Type",
+        placeholder: "Select the output type",
+      }),
+      isList: zField(z.boolean().default(false), {
+        label: "Output Is List",
+        placeholder: "Will the output be a list?",
+      }),
+    }),
+    executable: true,
+  },
 ];
 
 export const nodeTypes = {
@@ -221,6 +263,17 @@ export function getNodeSourceHandles(node: AppNode): TypedHandle[] {
         isList: (node as OutputNode).data.isList,
       }));
     }
+    case "javascript": {
+      const { outputType, isList } = (node as JavaScriptNode).data;
+
+      return [
+        {
+          type: outputType || "any",
+          isList,
+        },
+      ];
+    }
+
     default:
       return [];
   }
@@ -267,6 +320,23 @@ export function getNodeTargetHandles(node: AppNode): TypedHandle[] {
           isList: (node as OutputNode).data.isList,
         },
       ];
+    case "javascript": {
+      const { inputs } = (node as JavaScriptNode).data;
+
+      return (
+        inputs
+          ?.map(
+            (input, index) =>
+              input && {
+                id: String(index),
+                label: input.name,
+                type: input.type,
+                isList: input.isList,
+              }
+          )
+          .filter(Boolean) || []
+      );
+    }
     default:
       return [];
   }

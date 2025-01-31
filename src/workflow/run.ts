@@ -23,7 +23,8 @@ export async function runWorkflow(
   };
   const openaiKey = useApiKeyStore.getState().openaiKey;
 
-  if (!openaiKey) {
+  // Check if any flow has an LLM node and if the OpenAI key is not set
+  if (!openaiKey && flows.some((f) => f.nodes.some((n) => n.type === "llm"))) {
     toast.error("OpenAI key is not set");
     throw new Error("OpenAI key is not set");
   }
@@ -32,7 +33,7 @@ export async function runWorkflow(
     flowId: flows[0].id,
     flows,
     inputs,
-    openaiKey,
+    openaiKey: openaiKey as string,
     onNodeStateChange,
   };
 
@@ -93,8 +94,6 @@ export async function runFlow(
           c.output,
         ]) || []
       );
-
-      console.log("--->", flowInput, node);
 
       const log = (...args: unknown[]) =>
         console.info(`[node:${nodeId}]`, ...args);

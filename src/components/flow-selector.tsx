@@ -10,7 +10,10 @@ import { useFlowStore } from "@/stores/flow-store";
 import { Plus } from "lucide-react";
 import React from "react";
 import { useState } from "react";
-import InputAutosize from "react-input-autosize";
+import LegacyInputAutosize, { AutosizeInputProps } from "react-input-autosize";
+
+const InputAutosize =
+  LegacyInputAutosize as unknown as React.FC<AutosizeInputProps>;
 
 export function FlowSelector() {
   const {

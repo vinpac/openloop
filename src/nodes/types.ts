@@ -66,6 +66,21 @@ export type SubflowNode = Node<
   "subflow"
 >;
 
+export type JavaScriptNode = Node<
+  {
+    code: string;
+    label?: string;
+    outputType: "text" | "number" | "boolean" | "dictionary";
+    isList: boolean;
+    inputs: Array<{
+      name: string;
+      type: "text" | "number" | "date" | "boolean" | "dictionary";
+      isList: boolean;
+    }>;
+  },
+  "javascript"
+>;
+
 export type AppNode =
   | BuiltInNode
   | AttachmentNode
@@ -73,7 +88,9 @@ export type AppNode =
   | ExtractNode
   | TextNode
   | SubflowNode
-  | InputNode;
+  | InputNode
+  | OutputNode
+  | JavaScriptNode;
 
 export type NodeExecutionState = {
   isRunning: boolean;

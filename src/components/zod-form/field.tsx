@@ -41,7 +41,6 @@ export const ZodFieldComponent = ({
   typeName?: string;
 }) => {
   const props = {
-    key: name,
     name,
     value,
   };

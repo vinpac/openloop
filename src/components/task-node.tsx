@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/context-menu";
 import { useDebounce } from "@/hooks/use-debounce";
 import { AppNode } from "@/nodes/types";
-import { Position, useReactFlow } from "@xyflow/react";
-import { useMemo, useState } from "react";
+import { Position, useReactFlow, useUpdateNodeInternals } from "@xyflow/react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useWorkflowExecutionStore } from "@/stores/node-execution-store";
 import { LoaderCircle } from "lucide-react";
 import { SubflowNodeForm } from "@/components/subflow-node-form";
@@ -18,10 +18,12 @@ import { getNodeSourceHandles, getNodeTargetHandles } from "@/nodes";
 import { TypedHandles } from "@/components/typed-handles";
 import { useFlowStore } from "@/stores/flow-store";
 import { MdError } from "react-icons/md";
+import { JavaScriptNodeForm } from "@/components/javascript-node-form";
 
 const NodeFormTypes = {
   attachment: AttachmentNodeForm,
   subflow: SubflowNodeForm,
+  javascript: JavaScriptNodeForm,
 };
 
 const cxByNodeType = {
@@ -31,10 +33,12 @@ const cxByNodeType = {
   subflow: "border-blue-600 [&_[data-header]]:bg-blue-100",
   input: "border-pink-600 [&_[data-header]]:bg-pink-100",
   output: "border-green-600 [&_[data-header]]:bg-green-100",
+  javascript: "border-yellow-600 [&_[data-header]]:bg-yellow-100 !w-[400px]",
 };
 
 export const TaskNode = (node: AppNode) => {
   const { updateNode, setNodes, setEdges } = useReactFlow();
+  const updateNodeInternals = useUpdateNodeInternals();
   const errors = useFlowStore((state) =>
     state.flows
       .find((f) => f.id === state.activeFlowId)
@@ -62,6 +66,30 @@ export const TaskNode = (node: AppNode) => {
   const isRunning = executionState?.isRunning;
   const sourceHandles = useMemo(() => getNodeSourceHandles(node), [node]);
   const targetHandles = useMemo(() => getNodeTargetHandles(node), [node]);
+  const internalDep = useMemo(
+    () =>
+      [
+        sourceHandles.length,
+        targetHandles.length,
+        sourceHandles.map((s) => s.id).join(","),
+        targetHandles.map((t) => t.id).join(","),
+      ].join(";"),
+    [sourceHandles, targetHandles]
+  );
+  const internalDepRef = useRef(internalDep);
+
+  useEffect(() => {
+    if (internalDepRef.current !== internalDep) {
+      console.log("called");
+      updateNodeInternals(node.id);
+      internalDepRef.current = internalDep;
+    }
+  }, [
+    node.id,
+    updateNodeInternals,
+     
+    internalDep,
+  ]);
 
   return (
     <ContextMenu>
@@ -74,11 +102,9 @@ export const TaskNode = (node: AppNode) => {
             : executionState?.finishedAt
             ? "!border-0 p-0.5  ring-4 duration-200 transition-all ring-green-500"
             : ""
-        } ${
-          hasErrors
-            ? "border-red-500 [&_[data-header]]:bg-red-100"
-            : cxByNodeType[node.type as keyof typeof cxByNodeType] ||
-              "border-stone-300"
+        } ${hasErrors ? "!border-red-500 ![&_[data-header]]:bg-red-100" : ""} ${
+          cxByNodeType[node.type as keyof typeof cxByNodeType] ||
+          "border-stone-300"
         }`}
       >
         {hasErrors && (
@@ -108,7 +134,7 @@ export const TaskNode = (node: AppNode) => {
           <NodeIcon node={node} className="w-5 h-5 flex-shrink-0" />
           <input
             value={label}
-            className="w-full bg-transparent focus:bg-black/10 focus:outline-none rounded focus:ring-2 px-1.5 focus:ring-black/10"
+            className="w-full bg-transparent focus:bg-black/10 focus:outline-none rounded focus:ring-2 px-1.5 focus:ring-black/10 z-50"
             placeholder="Untitled"
             onChange={(e) => {
               setLabel(e.target.value);

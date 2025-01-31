@@ -1,9 +1,7 @@
 import { useWorkflowExecutionStore } from "@/stores/node-execution-store";
 import { useReactFlow } from "@xyflow/react";
-import { useApiKeyStore } from "@/stores/api-key-store";
 import { Button } from "@/components/ui/button";
 import { TbPlayerPlayFilled } from "react-icons/tb";
-import toast from "react-hot-toast";
 import { z } from "zod";
 import { InputNode } from "@/nodes/types";
 import { zField } from "@/components/zod-form/helpers";
@@ -16,14 +14,8 @@ interface RunButtonProps {
 export function RunButton({ onRun }: RunButtonProps) {
   const { getNodes } = useReactFlow();
   const { clearAllStates } = useWorkflowExecutionStore();
-  const openaiKey = useApiKeyStore((state) => state.openaiKey);
 
   const runFlow = async () => {
-    if (!openaiKey) {
-      toast.error("Please set your OpenAI API key first");
-      return;
-    }
-
     const inputNodes = getNodes().filter(
       (node) => node.type === "input"
     ) as InputNode[];

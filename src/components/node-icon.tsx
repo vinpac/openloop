@@ -4,7 +4,11 @@ import { TbBrandOpenai, TbTable } from "react-icons/tb";
 import { ImAttachment } from "react-icons/im";
 import { IoText } from "react-icons/io5";
 import { RxComponent1 } from "react-icons/rx";
-import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import {
+  FaArrowAltCircleDown,
+  FaArrowAltCircleUp,
+  FaJsSquare,
+} from "react-icons/fa";
 const nodeIconMap: Record<string, React.ComponentType<IconBaseProps>> = {
   text: IoText,
   llm: TbBrandOpenai,
@@ -13,6 +17,7 @@ const nodeIconMap: Record<string, React.ComponentType<IconBaseProps>> = {
   subflow: RxComponent1,
   input: FaArrowAltCircleDown,
   output: FaArrowAltCircleUp,
+  javascript: FaJsSquare,
 };
 
 export const NodeIcon = ({
